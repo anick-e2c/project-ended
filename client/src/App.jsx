@@ -5,7 +5,7 @@ import Login from './pages/Login.jsx'
 import Profile from './pages/Profile.jsx'
 function App() {
   return (
-    <div className="bg-[url('./src/assets/bgImage.svg')] bg-contain">
+    <div className="bg-[url('./src/assets/bgImage.svg')] bg-cover bg-no-repeat">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
