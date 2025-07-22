@@ -12,4 +12,5 @@ userRouter.post('/update-profile', protectRoutes, updateProfile);
 userRouter.post('/check', protectRoutes, checkAuth);
 
 
+
 export default userRouter;
