@@ -5,7 +5,7 @@ import http from 'http';
 import { connectBD } from './lib/db.js'; 
 import userRouter from './routes/userRoutes.js';
 import messageRouter from './routes/messageRoutes.js';
-import { Server, Socket } from 'socket.io';
+import { Server } from 'socket.io';
 
 
 
@@ -21,23 +21,28 @@ export const io = new Server(server, {
 //  Store online users
 export const userSocketMap = {}; // {userId: socketId}
 
-// Socket.io connection handler
-io.on("connection", (Socket)=>{
+// Socket.io disconnection handler
+io.on("connection", (socket) =>{
+     // Récupère l'userId depuis le handshake ou un event d'authentification
+    const userId = socket.handshake.query.userId; // ou via un event personnalisé
+
     console.log("User Connected.", userId);
 
-    if(userId) userSocketMap[userId] = Socket.id;
-});
+    if(userId) userSocketMap[userId] = socket.id;
 
-// Emit online users to all connected clients
+    // Emit online users to all connected clients
 io.emit("getOnlineUsers", Object.keys(userSocketMap));
 
 
 // Socket.io desconnection handler
-Socket.on("Disconned", ()=>{
+socket.on("disconned", ()=>{
     console.log("User Disconnected", userId);
     delete userSocketMap[userId];
-    io.emit("getOnlineUsers", Object.keys(userSocketMap))
+    io.emit("getOnlineUsers", Object.keys(userSocketMap));
 })
+});
+
+
 
 
  
@@ -56,5 +61,5 @@ await connectBD();
 const PORT = process.env.PORT || 5000;
 
 server.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`Server is running on port http://localhost${PORT}`);
 });

@@ -1,5 +1,5 @@
 import express from 'express';
-import { protectRoute } from '../middleware/auth';
+import { protectRoute } from '../middleware/auth.js';
 import { getMessages, getUsersForSidebar, markMessagesAsSeen, SendMessage } from '../controllers/messageController.js';
 
 
