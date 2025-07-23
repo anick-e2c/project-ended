@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, createContext } from "react";
 import axios from 'axios';
+
 
 import toast from 'react-hot-toast';
 import { io } from 'socket.io-client';
 
-import { AuthContext } from "./AuthContextContex.jsx";
+export const AuthContext = createContext();
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 axios.defaults.baseURL = backendUrl;
 
@@ -96,7 +97,7 @@ export const AuthProvider = ({ children })=>{
             axios.defaults.headers.common["token"] = token;
         }
         checkAuth();
-    },[checkAuth, token]);
+    },[]);
 
     const value = {
         axios,
@@ -114,5 +115,3 @@ export const AuthProvider = ({ children })=>{
         </AuthContext.Provider>
     )
 }
-
-export default AuthContext;
